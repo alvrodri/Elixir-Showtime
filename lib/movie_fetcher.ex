@@ -32,7 +32,7 @@ defmodule MovieFetcher do
         |> handle_jfper_response()
 
       {:error, reason} ->
-        IO.puts(IO.ANSI.format([:red, "Failed to fetch info from jfper.link: #{inspect(reason)}"]))
+        IO.puts(IO.ANSI.format([:red, "Failed to fetch torrents for movie: #{inspect(reason)}"]))
     end
   end
 
@@ -55,6 +55,8 @@ defmodule MovieFetcher do
       %{"url" => url} ->
         IO.puts(IO.ANSI.format([:green, "You selected #{selected_quality}. Here's the torrent URL:"]))
         IO.puts(IO.ANSI.format([:cyan, url]))
+
+        MovieStreamer.open_torrent_in_vlc(url)
     end
   end
 
