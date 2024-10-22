@@ -16,16 +16,18 @@
 To get started with **Elixir Showtime**, ensure you have [Elixir](https://elixir-lang.org/install.html) and [WebTorrent](https://webtorrent.io/) installed on your system.
 
 ### Prerequisites  
-1. **Elixir**  
+1. **Elixir**
+   
    Install Elixir by following the [official instructions](https://elixir-lang.org/install.html).  
 
-2. **WebTorrent (optional, for better streaming)**
+3. **WebTorrent (optional, for better streaming)**
+   
    Install WebTorrent globally using npm:  
    ```bash
    npm install -g webtorrent webtorrent-cli
    ```
 
-3. **VLC Player (default player if webtorrent is not available)**
+4. **VLC Player (default player if webtorrent is not available)**
 
    Download VLC media player from [here](https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe).
 
