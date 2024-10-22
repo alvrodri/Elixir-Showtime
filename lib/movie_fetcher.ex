@@ -66,7 +66,7 @@ defmodule MovieFetcher do
       "xbmc", "XBMC"
     ]
 
-    IO.puts(IO.ANSI.format([:cyan, "\nAvailable streaming options (only while using webtorrent):"]))
+    IO.puts(IO.ANSI.format([:cyan, "\nAvailable streaming options (only if webtorrent is available):"]))
 
     Enum.chunk_every(streaming_options, 2)
     |> Enum.each(fn [option, description] ->
