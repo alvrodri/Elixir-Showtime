@@ -47,7 +47,6 @@ defmodule MovieFetcher do
   defp handle_jfper_response(%{"torrents" => %{"en" => torrents}}) do
     IO.puts(IO.ANSI.format([:magenta, "Available qualities:"]))
 
-    # Display available qualities and file sizes
     Enum.each(torrents, fn {quality, info} ->
       IO.puts(IO.ANSI.format([
         :yellow, "#{quality} - File Size: ", :reset, info["filesize"]
