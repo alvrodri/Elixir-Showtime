@@ -19,13 +19,15 @@ To get started with **Elixir Showtime**, ensure you have [Elixir](https://elixir
 1. **Elixir**  
    Install Elixir by following the [official instructions](https://elixir-lang.org/install.html).  
 
-2. **WebTorrent**  
+2. **WebTorrent (optional, for better streaming)**
    Install WebTorrent globally using npm:  
    ```bash
-   npm install -g webtorrent
+   npm install -g webtorrent webtorrent-cli
+   ```
 
-3. **VLC Player**
-   Download VLC media player from here.
+3. **VLC Player (default player if webtorrent is not available)**
+
+   Download VLC media player from [here](https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe).
 
 ## Clone and Setup
 ```bash
@@ -38,19 +40,38 @@ cd Elixir-Showtime
 mix run
 ```
 
-You'll be prompted to enter a movie name, select a torrent quality, and the torrent will start streaming directly to VLC.
+You'll be prompted to enter a movie name, select a torrent quality, and the torrent will start streaming directly to VLC/Webtorrent.
 
 ## Usage 📽️
 
 ```bash
-Enter a movie name: The Fall Guy
-Fetching movie info...
+Elixir Showtime 🎬🚀
+
+Enter a movie name to get started:
+> A star is born
+
+Title: A Star Is Born
+Year: 2018
+Plot: A musician helps a young singer find fame as age and alcoholism send his own career into a downward spiral.
+
 Available qualities:
-- 720p - File Size: 1.14 GB
-- 1080p - File Size: 2.34 GB
-- 2160p - File Size: 5.64 GB
-Enter the desired quality (e.g., 1080p): 1080p
-You selected 1080p. Streaming the torrent...
+1080p - File Size: 2.17 GB
+2160p - File Size: 6.52 GB
+720p - File Size: 1.13 GB
+
+Enter the desired quality (e.g., 1080p, 720p):
+> 720p
+
+Available streaming options (only if webtorrent is available):
+airplay: Apple TV
+chromecast: Chromecast
+mplayer: MPlayer
+mpv: MPV
+vlc: VLC
+xbmc: XBMC
+
+Select a streaming option (or press Enter for default VLC):
+> ...
 ```
 
 ## Future Features 🔮
