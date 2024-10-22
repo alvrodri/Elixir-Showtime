@@ -7,6 +7,8 @@ defmodule MovieFetcher do
     movie_name = URI.encode(movie_name)
     url = "#{@omdb_api_url}/?apikey=#{api_key}&t=#{movie_name}"
 
+    MovieApp.restart()
+
     :inets.start()
     case :httpc.request(:get, {to_charlist(url), []}, [], []) do
       {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} ->
@@ -17,6 +19,9 @@ defmodule MovieFetcher do
 
       {:error, reason} ->
         IO.puts(IO.ANSI.format([:red, "Failed to fetch movie info: #{inspect(reason)}"]))
+
+      _ ->
+        IO.puts(IO.ANSI.format([:red, "Failed to fetch movie info"]))
     end
   end
 
@@ -33,30 +38,56 @@ defmodule MovieFetcher do
 
       {:error, reason} ->
         IO.puts(IO.ANSI.format([:red, "Failed to fetch torrents for movie: #{inspect(reason)}"]))
+
+      _ ->
+        IO.puts(IO.ANSI.format([:red, "Failed to fetch torrents for movie"]))
     end
   end
 
   defp handle_jfper_response(%{"torrents" => %{"en" => torrents}}) do
-    IO.puts(IO.ANSI.format([:magenta, "\nAvailable qualities:"]))
+    IO.puts(IO.ANSI.format([:magenta, "Available qualities:"]))
 
+    # Display available qualities and file sizes
     Enum.each(torrents, fn {quality, info} ->
       IO.puts(IO.ANSI.format([
-        :yellow, "#{quality} - File Size: ", :reset, info["filesize"],
-        " - URL: ", :cyan, info["url"]
+        :yellow, "#{quality} - File Size: ", :reset, info["filesize"]
       ]))
     end)
 
     IO.puts("\nEnter the desired quality (e.g., 1080p, 720p):")
     selected_quality = IO.gets("> ") |> String.trim()
 
+    streaming_options = [
+      "airplay", "Apple TV",
+      "chromecast", "Chromecast",
+      "mplayer", "MPlayer",
+      "mpv", "MPV",
+      "vlc", "VLC",
+      "xbmc", "XBMC"
+    ]
+
+    IO.puts(IO.ANSI.format([:cyan, "\nAvailable streaming options (only while using webtorrent):"]))
+
+    Enum.chunk_every(streaming_options, 2)
+    |> Enum.each(fn [option, description] ->
+      IO.puts(IO.ANSI.format([:yellow, "#{option}: ", :reset, description]))
+    end)
+
+    IO.puts("\nSelect a streaming option (or press Enter for default VLC):")
+    selected_option = IO.gets("> ") |> String.trim()
+
     case Map.get(torrents, selected_quality) do
       nil ->
-        IO.puts(IO.ANSI.format([:red, "Invalid quality selected."]))
-      %{"url" => url} ->
-        IO.puts(IO.ANSI.format([:green, "You selected #{selected_quality}. Here's the torrent URL:"]))
-        IO.puts(IO.ANSI.format([:cyan, url]))
+        IO.puts(IO.ANSI.format([:red, "Invalid quality selected. Please try again."]))
+        handle_jfper_response(%{"torrents" => %{"en" => torrents}})
 
-        MovieStreamer.open_torrent_in_vlc(url)
+      %{"url" => url} ->
+        if selected_option == "" do
+          MovieStreamer.open_torrent(url, "vlc")
+        else
+          IO.puts(IO.ANSI.format([:green, "Using streaming option: #{selected_option}"]))
+          MovieStreamer.open_torrent(url, selected_option)
+        end
     end
   end
 
@@ -66,5 +97,6 @@ defmodule MovieFetcher do
     IO.puts(IO.ANSI.format([:green, "Title: ", :reset, title]))
     IO.puts(IO.ANSI.format([:blue, "Year: ", :reset, year]))
     IO.puts(IO.ANSI.format([:yellow, "Plot: ", :reset, plot]))
+    IO.puts("")
   end
 end
