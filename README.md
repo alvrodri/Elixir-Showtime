@@ -13,7 +13,7 @@
 - 💻 Simple, easy-to-use command-line interface  
 
 ## Installation 📦  
-To get started with **TorrentShowtime**, ensure you have [Elixir](https://elixir-lang.org/install.html) and [WebTorrent](https://webtorrent.io/) installed on your system.
+To get started with **Elixir Showtime**, ensure you have [Elixir](https://elixir-lang.org/install.html) and [WebTorrent](https://webtorrent.io/) installed on your system.
 
 ### Prerequisites  
 1. **Elixir**  
@@ -29,8 +29,8 @@ To get started with **TorrentShowtime**, ensure you have [Elixir](https://elixir
 
 ## Clone and Setup
 ```bash
-git clone https://github.com/your_username/torrentshowtime.git
-cd torrentshowtime
+git clone https://github.com/alvrodri/elixir-showtime.git
+cd Elixir-Showtime
 ```
 
 ## Running the Application
