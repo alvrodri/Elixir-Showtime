@@ -18,10 +18,12 @@ To get started with **TorrentShowtime**, ensure you have [Elixir](https://elixir
 ### Prerequisites  
 1. **Elixir**  
    Install Elixir by following the [official instructions](https://elixir-lang.org/install.html).  
+
 2. **WebTorrent**  
    Install WebTorrent globally using npm:  
    ```bash
    npm install -g webtorrent
+
 3. **VLC Player**
    Download VLC media player from here.
 
