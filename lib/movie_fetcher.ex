@@ -24,7 +24,7 @@ defmodule MovieFetcher do
     print_movie_info(movie_info)
 
     jfper_url = "#{@jfper_api_url}/#{imdb_id}"
-    case :httpc.request(:get, {to_charlist(jfper_url), []}, [], []) do
+    case :httpc.request(:get, {to_charlist(jfper_url), []}, [ssl: [verify: :verify_none]], []) do
       {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} ->
         body
         |> to_string()
@@ -37,7 +37,7 @@ defmodule MovieFetcher do
   end
 
   defp handle_jfper_response(%{"torrents" => %{"en" => torrents}}) do
-    IO.puts(IO.ANSI.format([:magenta, "Available qualities:"]))
+    IO.puts(IO.ANSI.format([:magenta, "\nAvailable qualities:"]))
 
     Enum.each(torrents, fn {quality, info} ->
       IO.puts(IO.ANSI.format([
@@ -46,7 +46,7 @@ defmodule MovieFetcher do
       ]))
     end)
 
-    IO.puts("Enter the desired quality (e.g., 1080p, 720p):")
+    IO.puts("\nEnter the desired quality (e.g., 1080p, 720p):")
     selected_quality = IO.gets("> ") |> String.trim()
 
     case Map.get(torrents, selected_quality) do
